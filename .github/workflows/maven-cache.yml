@@ -1,6 +1,6 @@
 name: Java CI with Maven
-on:
-  push:
+# on:
+#  push:
 # concurrency:
 #  group: environment-${{ github.ref }}
 #  cancel-in-progress: true
