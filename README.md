@@ -17,3 +17,4 @@ docker run -d -p 8080:8080 --name dockercontainer mavenbuild
 Not following these. INstead,
 running maven via worflow to build a .WAR file. then invoking a jenkins pipeline from the github workflow
 jenkins will then deploy to tomcat
+1st attempt failed due to no WAR file from jenkins view - so trying to run a maven command to see if it copies or generates new WAR
