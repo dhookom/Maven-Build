@@ -31,7 +31,15 @@ jobs:
       with:
         name: webapp
         path: target/*.war
-
+        
+    - name: Deploy to Remote Server
+      uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
+      with:
+        host: ${{ secrets.HOST }}
+        user: ${{ secrets.USERNAME }}
+        pass: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        scp: simple-java-maven-app/target/*.jar => /tmp/
 
     - name: Invoke Jenkins Deployment Job
       uses: appleboy/jenkins-action@master
