@@ -31,3 +31,12 @@ jobs:
       with:
         name: webapp
         path: target/*.war
+
+
+    - name: Invoke Jenkins Deployment Job
+      uses: appleboy/jenkins-action@master
+      with: 
+        url: "http://65.1.168.148:8080"
+        user: "admin"
+        token:  ${{ secrets.MY_SECRET }} 
+        job: "Deploy2Tomcat"
