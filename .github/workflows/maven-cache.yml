@@ -29,17 +29,17 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      - name: scp ssh pieplines
-        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        with:
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.USERNAME }}
-          pass:  ${{ secrets.PASSWORD }}
-          port:  ${{ secrets.PORT }}
-          scp: | 
-            ./target/*.war => /tmp/
-          last_ssh: |
-            ls -lart /tmp
+#      - name: scp ssh pieplines
+#        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+#        with:
+#          host: ${{ secrets.HOST }}
+#          user: ${{ secrets.USERNAME }}
+#          pass:  ${{ secrets.PASSWORD }}
+#          port:  ${{ secrets.PORT }}
+#          scp: | 
+#            ./target/*.war => /tmp/
+#          last_ssh: |
+#            ls -lart /tmp
 
       - name: Invoke Jenkins Deployment Job
         uses: appleboy/jenkins-action@master
