@@ -9,7 +9,7 @@ jobs:
   maven_build:
     strategy:
       matrix:
-        version: [11, 8]
+        version: [21, 17, 11, 8]
     runs-on: ubuntu-latest
 
     steps:
