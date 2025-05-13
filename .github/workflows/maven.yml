@@ -48,6 +48,7 @@ jobs:
       uses: slackapi/slack-github-action@v2.1.0
       with:
         webhook: ${{ secrets.SLACK_URL }}
+        webhook-type: 'incoming-webhook'
         payload: |
           {
             "text": ":tada: Build successful and WAR file transferred!\nClick \"Approve\" to deploy to Tomcat.",
@@ -91,12 +92,12 @@ jobs:
         errors: false
         payload-templated: false
         retries: 5
-        
     - name: Slack Notification on Failure
       if: failure()
       uses: slackapi/slack-github-action@v2.1.0
       with:
         webhook: ${{ secrets.SLACK_URL }}
+        webhook-type: 'incoming-webhook'
         payload: |
           {
             "text": ":cry: Build failed!"
