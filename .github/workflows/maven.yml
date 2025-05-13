@@ -17,6 +17,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+        
     - name: Cache Maven packages
       uses: actions/cache@v4
       with:
@@ -24,6 +25,7 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
+          
     - name: Build with Maven
       run: mvn package --batch-mode --file pom.xml
     - name: Upload WAR artifact
@@ -41,10 +43,65 @@ jobs:
         port: ${{ secrets.PORT }}
         scp: simple-java-maven-app/target/*.jar => /tmp/
 
-    - name: Invoke Jenkins Deployment Job
-      uses: appleboy/jenkins-action@master
-      with: 
-        url: "http://65.1.168.148:8080"
-        user: "admin"
-        token:  ${{ secrets.MY_SECRET }} 
-        job: "Deploy2Tomcat"
+    - name: Slack Notification on Success
+      if: success()
+      uses: slackapi/slack-github-action@v2.8.0
+      with:
+        slack-webhook-uri: ${{ secrets.SLACK_WEBHOOK_URL }}
+        slack-message: |
+          :tada: Build successful and WAR file transferred!
+          Click "Approve" to deploy to Tomcat.
+        blocks: |
+          [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": ":tada: Build successful and WAR file transferred!\nThe WAR file has been placed in `/tmp/simple-java-maven-app/target/` on the Jenkins server.\nClick \"Approve\" to deploy to Tomcat."
+              }
+            },
+            {
+              "type": "actions",
+              "elements": [
+                {
+                  "type": "button",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Approve",
+                    "emoji": true
+                  },
+                  "style": "primary",
+                  "value": "approve_deployment",
+                  "action_id": "approve_button"
+                },
+                {
+                  "type": "button",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Deny",
+                    "emoji": true
+                  },
+                  "style": "danger",
+                  "value": "deny_deployment",
+                  "action_id": "deny_button"
+                }
+              ]
+            }
+          ]
+          
+    - name: Slack Notification on Failure
+      if: failure()
+      uses: slackapi/slack-github-action@v2.8.0
+      with:
+        slack-webhook-uri: ${{ secrets.SLACK_WEBHOOK_URL }}
+        slack-message: ":cry: Build failed!"
+
+    # The Invoke Jenkins Deployment Job step is removed as Jenkins will be triggered directly from Slack
+    
+#    - name: Invoke Jenkins Deployment Job
+#      uses: appleboy/jenkins-action@master
+#      with: 
+#        url: "http://65.1.168.148:8080"
+#        user: "admin"
+#        token:  ${{ secrets.MY_SECRET }} 
+#        job: "Deploy2Tomcat"
