@@ -41,7 +41,7 @@ jobs:
         user: ${{ secrets.USERNAME }}
         pass: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        scp: simple-java-maven-app/target/*.jar => /tmp/
+        scp: simple-java-maven-app/target/*.war => /tmp/
 
     - name: Slack Notification on Success
       if: success()
