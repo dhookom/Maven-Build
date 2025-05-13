@@ -47,7 +47,7 @@ jobs:
       if: success()
       uses: slackapi/slack-github-action@v2.8.0
       with:
-        slack-webhook-uri: ${{ secrets.SLACK_WEBHOOK_URL }}
+        slack-webhook-uri: ${{ secrets.SLACK_URL }}
         slack-message: |
           :tada: Build successful and WAR file transferred!
           Click "Approve" to deploy to Tomcat.
@@ -93,7 +93,7 @@ jobs:
       if: failure()
       uses: slackapi/slack-github-action@v2.8.0
       with:
-        slack-webhook-uri: ${{ secrets.SLACK_WEBHOOK_URL }}
+        slack-webhook-uri: ${{ secrets.SLACK_URL }}
         slack-message: ":cry: Build failed!"
 
     # The Invoke Jenkins Deployment Job step is removed as Jenkins will be triggered directly from Slack
