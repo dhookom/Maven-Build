@@ -51,7 +51,7 @@ jobs:
         webhook-type: 'incoming-webhook'
         payload: |
           {
-            "text": ":tada: Build successful and WAR file transferred!\nTo proceed with the deployment to Tomcat, please use the `/deploy` command in this channel."
+            "text": ":tada: Build successful and WAR file transferred!\nTo proceed with the deployment to Tomcat, IF YOU APPROVE, please use the `/deploy` command in this channel."
           }
         errors: false
         payload-templated: false
